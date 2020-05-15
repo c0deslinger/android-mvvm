@@ -20,8 +20,7 @@ import javax.inject.Inject
  * Created by Ahmed Yusuf on 10/05/20.
  */
 class PostViewModel @Inject constructor(private val repository: PostRepository,
-                                        private val sessionManager: SessionManager,
-                                        private val adapter: PostRecyclerAdapter): ViewModel() {
+                                        private val sessionManager: SessionManager): ViewModel() {
     companion object {
         private const val TAG = "PostViewModel"
     }

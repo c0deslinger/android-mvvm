@@ -3,4 +3,6 @@
     <string name="logout">Logout</string>
     <string name="profile">Profile</string>
     <string name="post">Post</string>
+    <string name="txtLoading">Loading</string>
+    <string name="txtSuccess">Success load data</string>
 </resources>

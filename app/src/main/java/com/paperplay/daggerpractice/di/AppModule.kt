@@ -1,13 +1,18 @@
 package com.paperplay.daggerpractice.di
 
 import android.app.Application
+import android.content.Context
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
+import androidx.room.Room
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
 import com.paperplay.daggerpractice.R
+import com.paperplay.daggerpractice.data.source.local.Database
+import com.paperplay.daggerpractice.data.source.local.PostDao
 import com.paperplay.daggerpractice.utils.Constant
+import com.paperplay.suteraemas.utils.PreferenceUtils
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -38,6 +43,20 @@ class AppModule {
         @Singleton
         @JvmStatic
         @Provides
+        fun provideDatabase(application: Application): Database = Room.databaseBuilder(
+            application, Database::class.java, "myandroidmvvm.db"
+        ).build()
+
+        @Singleton
+        @JvmStatic
+        @Provides
+        fun providePostDao(database: Database): PostDao{
+            return database.postDao()
+        }
+
+        @Singleton
+        @JvmStatic
+        @Provides
         fun provideGlideRequestOptions(): RequestOptions{
             return RequestOptions.placeholderOf(R.drawable.white_background)
                 .error(R.drawable.white_background)
@@ -48,6 +67,13 @@ class AppModule {
         @Provides
         fun provideGlideRequestManager(application: Application, requestOptions: RequestOptions): RequestManager{
             return Glide.with(application).setDefaultRequestOptions(requestOptions)
+        }
+
+        @Singleton
+        @JvmStatic
+        @Provides
+        fun providePreference(application: Application): PreferenceUtils{
+            return PreferenceUtils(application.baseContext)
         }
 
         /** Get drawable from project resource */
@@ -77,6 +103,7 @@ class AppModule {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
         }
-   }
+
+    }
 
 }

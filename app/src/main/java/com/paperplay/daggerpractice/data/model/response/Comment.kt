@@ -1,4 +1,4 @@
-package com.paperplay.daggerpractice.model
+package com.paperplay.daggerpractice.data.model.response
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

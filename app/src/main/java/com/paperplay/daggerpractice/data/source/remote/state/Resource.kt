@@ -1,4 +1,4 @@
-package com.paperplay.daggerpractice.network.state
+package com.paperplay.daggerpractice.data.source.remote.state
 
 /**
  * class ini merupakan standart wrapper dari google untuk wrapping return dari REST API agar mudah diproses

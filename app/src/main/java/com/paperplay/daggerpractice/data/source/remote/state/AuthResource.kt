@@ -1,4 +1,4 @@
-package com.paperplay.daggerpractice.network.state
+package com.paperplay.daggerpractice.data.source.remote.state
 
 
 class AuthResource<T>(val status: AuthStatus, val data: T?, val message: String?) {

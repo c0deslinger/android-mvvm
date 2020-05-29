@@ -5,17 +5,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.paperplay.daggerpractice.R
-import com.paperplay.daggerpractice.model.Post
-import com.paperplay.daggerpractice.network.state.Resource
+import com.paperplay.daggerpractice.data.model.table.PostsTable
+import com.paperplay.daggerpractice.data.source.remote.state.Resource
 import com.paperplay.daggerpractice.utils.VerticalSpaceItemDecoration
 import com.paperplay.daggerpractice.viewmodel.ViewModelProviderFactory
 import dagger.android.support.DaggerFragment
+import kotlinx.android.synthetic.main.fragment_post.*
 import javax.inject.Inject
 
 /**
@@ -26,16 +26,15 @@ class PostFragment: DaggerFragment() {
         private const val TAG = "PostFragment"
     }
 
+    private var errorOccured = false
+
     @Inject
     lateinit var viewModelProviderFactory: ViewModelProviderFactory
 
     @Inject
     lateinit var postRecyclerAdapter: PostRecyclerAdapter
 
-    lateinit var viewModel: PostViewModel
-    lateinit var recyclerView: RecyclerView
-
-    lateinit var progressBar: ProgressBar
+    private lateinit var viewModel: PostViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,40 +47,52 @@ class PostFragment: DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel = ViewModelProviders.of(this, viewModelProviderFactory).get(PostViewModel::class.java)
         subscribeObservers()
-        recyclerView = view.findViewById(R.id.recycler_view)
-        progressBar = view.findViewById(R.id.progress_bar)
+//        recyclerView = view.findViewById(R.id.recycler_view)
+//        loadingLayout = view.findViewById(R.id.loadingLayout)
         initRecycler()
     }
 
-    fun initRecycler(){
-        recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.addItemDecoration(VerticalSpaceItemDecoration(15))
-        recyclerView.adapter = postRecyclerAdapter
+    private fun initRecycler(){
+        recycler_view.layoutManager = LinearLayoutManager(activity)
+        recycler_view.addItemDecoration(VerticalSpaceItemDecoration(15))
+        recycler_view.adapter = postRecyclerAdapter
     }
 
-    fun subscribeObservers(){
+    private fun subscribeObservers(){
         viewModel.observePost().removeObservers(viewLifecycleOwner)
         viewModel.observePost().observe(viewLifecycleOwner, Observer {
             it?.let {
                 Log.d(TAG, "subscribeObservers: "+it.data)
                 when(it.status){
                     Resource.Status.LOADING -> {
-                        progressBar.visibility = View.VISIBLE
-                        recyclerView.visibility = View.GONE
+                        txtLoadingTitle.text = getString(R.string.txtLoading)
                     }
                     Resource.Status.SUCCESS -> {
-                        progressBar.visibility = View.GONE
-                        recyclerView.visibility = View.VISIBLE
-                        postRecyclerAdapter.setPosts(it.data as List<Post>)
+                        recycler_view.visibility = View.VISIBLE
+                        if(!errorOccured) loadingLayout.visibility = View.GONE
+                        postRecyclerAdapter.setPosts(it.data as List<PostsTable>)
                     }
                     Resource.Status.ERROR -> {
-                        progressBar.visibility = View.GONE
-                        recyclerView.visibility = View.GONE
-                        Log.e(TAG, "subscribeObservers: "+it.message )
+                        loadingLayout.setBackgroundColor(ResourcesCompat.getColor(resources,
+                            R.color.colorError, null))
+                        txtLoadingTitle.text = it.message
                     }
                 }
             }
         })
+        viewModel.error.observe(
+            this,
+            Observer {
+                if(it.startsWith("Error: ")){
+                    loadingLayout.setBackgroundColor(ResourcesCompat.getColor(resources, R.color.colorError, null))
+                    txtLoadingTitle.text = it
+                    errorOccured = true
+                }else{
+                    errorOccured = false
+                    loadingLayout.visibility = View.GONE
+                }
+            }
+        )
     }
 
 }

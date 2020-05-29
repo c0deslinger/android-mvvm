@@ -6,7 +6,7 @@ import android.util.Log
 import androidx.lifecycle.Observer
 import com.paperplay.daggerpractice.di.SessionManager
 import com.paperplay.daggerpractice.ui.auth.AuthActivity
-import com.paperplay.daggerpractice.network.state.AuthResource
+import com.paperplay.daggerpractice.data.source.remote.state.AuthResource
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 

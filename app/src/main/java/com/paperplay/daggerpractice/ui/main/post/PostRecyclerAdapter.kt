@@ -7,11 +7,11 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.paperplay.daggerpractice.R
-import com.paperplay.daggerpractice.model.Post
+import com.paperplay.daggerpractice.data.model.table.PostsTable
 import java.util.*
 
 class PostRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private var posts: List<Post> = ArrayList()
+    private var posts: List<PostsTable> = ArrayList()
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -32,7 +32,7 @@ class PostRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return posts.size
     }
 
-    fun setPosts(posts: List<Post>) {
+    fun setPosts(posts: List<PostsTable>) {
         this.posts = posts
         notifyDataSetChanged()
     }
@@ -42,15 +42,15 @@ class PostRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         var title: TextView
         var comment: TextView
         var progressBar: ProgressBar
-        fun bind(post: Post) {
+        fun bind(post: PostsTable) {
             title.text = post.title
-            if(post.comment == null){
+            if(post.comments_count == null){
                 progressBar.visibility = View.VISIBLE
                 comment.text = ""
             }
             else{
                 progressBar.visibility = View.GONE
-                comment.text = post.comment?.size.toString()
+                comment.text = post.comments_count?.toString()
             }
         }
 

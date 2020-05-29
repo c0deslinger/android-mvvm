@@ -3,8 +3,8 @@ package com.paperplay.daggerpractice.ui.main.profile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.paperplay.daggerpractice.di.SessionManager
-import com.paperplay.daggerpractice.model.User
-import com.paperplay.daggerpractice.network.state.AuthResource
+import com.paperplay.daggerpractice.data.model.response.User
+import com.paperplay.daggerpractice.data.source.remote.state.AuthResource
 import javax.inject.Inject
 
 /**

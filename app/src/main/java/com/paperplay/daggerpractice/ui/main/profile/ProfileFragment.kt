@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.paperplay.daggerpractice.R
-import com.paperplay.daggerpractice.network.state.AuthResource
+import com.paperplay.daggerpractice.data.source.remote.state.AuthResource
 import com.paperplay.daggerpractice.viewmodel.ViewModelProviderFactory
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject

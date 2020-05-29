@@ -3,8 +3,9 @@ package com.paperplay.daggerpractice.di
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
-import com.paperplay.daggerpractice.model.User
-import com.paperplay.daggerpractice.network.state.AuthResource
+import com.paperplay.daggerpractice.data.model.response.User
+import com.paperplay.daggerpractice.data.source.remote.state.AuthResource
+import com.paperplay.suteraemas.utils.PreferenceUtils
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -13,6 +14,9 @@ import javax.inject.Singleton
  */
 @Singleton
 class SessionManager @Inject constructor() {
+
+    @Inject
+    lateinit var pref : PreferenceUtils
 
     /**
      * mediator adalah turunan class dari LiveData yg berfungsi untuk mediasi lebih dari 1 LiveData
@@ -44,5 +48,6 @@ class SessionManager @Inject constructor() {
 
     fun logout(){
         mediatorLiveDataUser.value = AuthResource.logout()
+        pref.setSharedPreferences(PreferenceUtils.PrefKey.LOGIN_ROLE, "-")
     }
 }

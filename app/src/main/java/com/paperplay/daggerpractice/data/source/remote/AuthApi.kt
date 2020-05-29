@@ -1,6 +1,6 @@
-package com.paperplay.daggerpractice.network
+package com.paperplay.daggerpractice.data.source.remote
 
-import com.paperplay.daggerpractice.model.User
+import com.paperplay.daggerpractice.data.model.response.User
 import io.reactivex.Flowable
 import retrofit2.http.GET
 import retrofit2.http.Path

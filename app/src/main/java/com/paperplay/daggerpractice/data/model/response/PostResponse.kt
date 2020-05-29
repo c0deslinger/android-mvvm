@@ -1,4 +1,4 @@
-package com.paperplay.daggerpractice.model
+package com.paperplay.daggerpractice.data.model.response
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * Created by Ahmed Yusuf on 10/05/20.
  */
-data class Post (
+data class PostResponse (
     @SerializedName("userId")
     @Expose
     var userId: Int,

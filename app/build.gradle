@@ -77,4 +77,9 @@ dependencies {
     def nav_version = "2.1.0-alpha02"
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
+
+    //Room
+    implementation "android.arch.persistence.room:runtime:1.0.0"
+    implementation "android.arch.persistence.room:rxjava2:1.0.0"
+    kapt "android.arch.persistence.room:compiler:1.0.0"
 }

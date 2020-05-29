@@ -13,8 +13,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.RequestManager
 import com.paperplay.daggerpractice.R
-import com.paperplay.daggerpractice.model.User
-import com.paperplay.daggerpractice.network.state.AuthResource
+import com.paperplay.daggerpractice.data.model.response.User
+import com.paperplay.daggerpractice.data.source.remote.state.AuthResource
 import com.paperplay.daggerpractice.ui.main.MainActivity
 import com.paperplay.daggerpractice.viewmodel.ViewModelProviderFactory
 import dagger.android.support.DaggerAppCompatActivity
@@ -46,6 +46,12 @@ class  AuthActivity : DaggerAppCompatActivity() {
 
         val viewModel = ViewModelProviders.of(this, viewModelProviderFactory).get(AuthViewModel::class.java)
 
+        if(viewModel.isAlreadyLoggedIn()){
+            val intent = Intent(baseContext, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
         btnLogin.setOnClickListener {
             val userId = edtUser.text.toString()
             if(!TextUtils.isEmpty(userId)){
@@ -55,9 +61,8 @@ class  AuthActivity : DaggerAppCompatActivity() {
         }
 
         //observe livedata auth user
-        viewModel.observeUser().observe(this, object : Observer<AuthResource<User>>{
-
-            override fun onChanged(result: AuthResource<User>?) {
+        viewModel.observeUser().observe(this,
+            Observer<AuthResource<User>> { result ->
                 result?.let {
                     when(it.status){
                         AuthResource.AuthStatus.LOADING -> {
@@ -81,7 +86,6 @@ class  AuthActivity : DaggerAppCompatActivity() {
                         }
                     }
                 }
-            }
-        })
+            })
     }
 }

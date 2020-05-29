@@ -1,7 +1,7 @@
 package com.paperplay.daggerpractice.di.main
 
 import com.paperplay.daggerpractice.di.MainScope
-import com.paperplay.daggerpractice.network.MainApi
+import com.paperplay.daggerpractice.data.source.remote.MainApi
 import com.paperplay.daggerpractice.ui.main.post.PostRecyclerAdapter
 import dagger.Module
 import dagger.Provides
@@ -15,7 +15,7 @@ import javax.inject.Named
 class MainModule {
     @MainScope
     @Provides
-    fun provideMainApi(@Named("base_url") retrofit: Retrofit): MainApi{
+    fun provideMainApi(@Named("base_url") retrofit: Retrofit): MainApi {
         return retrofit.create(MainApi::class.java)
     }
 
@@ -24,4 +24,5 @@ class MainModule {
     fun providePostRecycler(): PostRecyclerAdapter{
         return PostRecyclerAdapter()
     }
+
 }
